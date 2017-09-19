@@ -82,12 +82,14 @@ def _stream_without_seek(fp, kwds):
             except ValueError as exc:
                 end_pos = _get_end_pos(exc)
                 if end_pos is None:
-                    if exc.msg.startswith('Expecting value') \
-                       and not buf.strip():
-                        buf = ''
-                        continue
-                    else:
+                    if (not exc.msg.startswith('Expecting value') or
+                            buf.strip()):
                         raise
+
+                    # buf is all whitespace
+                    buf = ''
+                    continue
+
                 obj = json.loads(buf[:exc.pos])
                 buf = buf[exc.pos:]
             else:

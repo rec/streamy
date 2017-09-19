@@ -1,4 +1,4 @@
-import json, streamy, unittest
+import json, streamy, unittest, io
 
 
 class StreamyTest(unittest.TestCase):
